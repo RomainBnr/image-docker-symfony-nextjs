@@ -1,0 +1,5 @@
+-- Configuration initiale pour Symfony
+SET GLOBAL sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO';
+CREATE DATABASE IF NOT EXISTS symfony_test;
+GRANT ALL PRIVILEGES ON symfony_test.* TO 'symfony'@'%';
+FLUSH PRIVILEGES;

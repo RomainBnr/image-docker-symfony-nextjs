@@ -1,0 +1,32 @@
+# Dossiers de dépendances
+node_modules/
+vendor/
+
+# Fichiers de cache
+.cache/
+.next/
+var/cache/
+var/log/
+
+# Répertoires Git
+.git/
+**/.git/
+
+# Logs
+**/*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+.env.local
+.env.*.local
+
+# Fichiers de développement
+*.log
+.git/
+.gitignore
+README.md

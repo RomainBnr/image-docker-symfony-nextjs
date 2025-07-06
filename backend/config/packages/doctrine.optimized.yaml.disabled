@@ -1,0 +1,81 @@
+# Configuration Doctrine optimisée
+doctrine:
+    dbal:
+        # URL de connexion avec optimisations
+        url: '%env(resolve:DATABASE_URL)%'
+        
+        # Pool de connexions
+        connections:
+            default:
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                    
+        # Options de performance MySQL
+        options:
+            1002: "SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))"
+            
+        # Types personnalisés si nécessaire
+        types:
+            # datetime_immutable: App\DBAL\DateTimeImmutableType
+
+    orm:
+        auto_generate_proxy_classes: false
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        
+        # Cache de métadonnées optimisé
+        metadata_cache_driver: 
+            type: pool
+            pool: doctrine.system_cache_pool
+            
+        # Cache de requêtes
+        query_cache_driver: 
+            type: pool  
+            pool: doctrine.query_cache_pool
+            
+        # Cache de résultats
+        result_cache_driver:
+            type: pool
+            pool: doctrine.result_cache_pool
+            
+        mappings:
+            App:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+# Configuration cache pools
+framework:
+    cache:
+        pools:
+            doctrine.system_cache_pool:
+                adapter: cache.app
+            doctrine.query_cache_pool:
+                adapter: cache.app
+            doctrine.result_cache_pool:
+                adapter: cache.app
+                default_lifetime: 3600
+
+# Configuration pour l'environnement de développement
+when@dev:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: true
+            
+# Configuration pour l'environnement de production  
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            metadata_cache_driver: 
+                type: pool
+                pool: doctrine.system_cache_pool
+            query_cache_driver:
+                type: pool
+                pool: doctrine.query_cache_pool
